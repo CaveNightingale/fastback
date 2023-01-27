@@ -22,7 +22,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.MessageScreen;
+import net.minecraft.client.gui.screen.NoticeScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -73,7 +73,7 @@ final class FabricClientProvider extends FabricProvider implements HudRenderCall
     @Override
     public void setClientSavingScreenText(Message message) {
         final Screen screen = client.currentScreen;
-        if (screen instanceof MessageScreen) {
+        if (screen instanceof NoticeScreen) {
             ((ScreenAccessors) screen).setTitle(messageToText(message));
         }
     }
@@ -103,7 +103,7 @@ final class FabricClientProvider extends FabricProvider implements HudRenderCall
         float previousIndicatorAlpha = this.backupIndicatorAlpha;
         this.backupIndicatorAlpha = MathHelper.lerp(0.2F, this.backupIndicatorAlpha, statusTextShown ? 1.0F : 0.0F);
 
-        if (this.client.options.getShowAutosaveIndicator().getValue() && (this.backupIndicatorAlpha > 0.0F || previousIndicatorAlpha > 0.0F)) {
+        if (this.client.options.showAutosaveIndicator && (this.backupIndicatorAlpha > 0.0F || previousIndicatorAlpha > 0.0F)) {
             int i = MathHelper.floor(255.0F * MathHelper.clamp(MathHelper.lerp(this.client.getTickDelta(), previousIndicatorAlpha, this.backupIndicatorAlpha), 0.0F, 1.0F));
 
             if (i > 8) {

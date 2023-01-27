@@ -24,7 +24,9 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.pcal.fastback.ModContext;
 import net.pcal.fastback.fabric.mixins.ServerAccessors;
@@ -140,7 +142,7 @@ public abstract class FabricProvider implements ModContext.FrameworkServiceProvi
     public Path getWorldDirectory() {
         if (this.minecraftServer == null) throw new IllegalStateException();
         final LevelStorage.Session session = ((ServerAccessors) this.minecraftServer).getSession();
-        return ((SessionAccessors) session).getDirectory().path();
+        return ((SessionAccessors) session).getDirectory();
     }
 
     @Override
@@ -160,9 +162,9 @@ public abstract class FabricProvider implements ModContext.FrameworkServiceProvi
 
     static Text messageToText(final Message m) {
         if (m.localized() != null) {
-            return Text.translatable(m.localized().key(), m.localized().params());
+            return new TranslatableText(m.localized().key(), m.localized().params());
         } else {
-            return Text.literal(m.raw());
+            return new LiteralText(m.raw());
         }
     }
 }

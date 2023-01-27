@@ -20,7 +20,7 @@ package net.pcal.fastback.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.lucko.fabric.api.permissions.v0.Permissions;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.server.command.ServerCommandSource;
 import net.pcal.fastback.ModContext;
 import net.pcal.fastback.ModContext.ExecutionLock;
@@ -77,7 +77,7 @@ public class Commands {
         if (ctx.isExperimentalCommandsEnabled()) {
             SaveCommand.INSTANCE.register(argb, ctx);
         }
-        CommandRegistrationCallback.EVENT.register((dispatcher, regAccess, env) -> dispatcher.register(argb));
+        CommandRegistrationCallback.EVENT.register((dispatcher, regAccess) -> dispatcher.register(argb));
     }
 
     public static Logger commandLogger(final ModContext ctx, final ServerCommandSource scs) {
